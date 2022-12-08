@@ -1,1 +1,1 @@
-export { todoState } from "./todoState";
+export { todoState, changeDetected } from "./todoState";

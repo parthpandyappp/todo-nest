@@ -8,7 +8,7 @@ export const getAllTodos = async () => {
       method: "GET",
     });
 
-    return res;
+    return res.data;
   } catch (error) {
     console.log(error);
   }
@@ -16,6 +16,7 @@ export const getAllTodos = async () => {
 
 export const deleteTodo = async (todoId: string) => {
   try {
+    console.log(todoId);
     await axios({
       url: `http://localhost:3001/todos/${todoId}`,
       method: "DELETE",
@@ -28,7 +29,21 @@ export const deleteTodo = async (todoId: string) => {
 export const updateTodo = async (todo: TodoContent) => {
   try {
     await axios({
-      url: `http://localhost:3001/todos/${todo.id}`,
+      url: `http://localhost:3001/todos/${todo._id}`,
+      method: "PUT",
+      data: todo,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createTodo = async (todo: TodoContent) => {
+  try {
+    await axios({
+      url: `http://localhost:3001/todos/`,
+      method: "POST",
+      data: todo,
     });
   } catch (error) {
     console.log(error);

@@ -1,5 +1,5 @@
 interface TodoContent {
-  id: string;
+  _id?: string;
   todo: string;
   isCompleted: boolean;
 }

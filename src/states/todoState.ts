@@ -5,3 +5,8 @@ export const todoState = atom<TodoContent[]>({
   key: "todoContents",
   default: [],
 });
+
+export const changeDetected = atom<boolean>({
+  key: "renderAction",
+  default: false,
+});

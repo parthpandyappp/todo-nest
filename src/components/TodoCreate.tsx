@@ -1,18 +1,19 @@
-import { useState } from "react";
-import { todoState } from "../states";
 import { TodoContent } from "../types";
-import uuid from "react-uuid";
+import { createTodo } from "../services";
 import { useSetRecoilState } from "recoil";
+import { useState } from "react";
+import { changeDetected } from "../states";
 
 const TodoCreate = () => {
-  const setTodos = useSetRecoilState(todoState);
-  const initVals = { id: "", todo: "", isCompleted: false };
+  const initVals = { todo: "", isCompleted: false };
   const [formData, setFormData] = useState<TodoContent>(initVals);
-  //   console.log(formData);
 
-  const addTodo = (e: React.FormEvent<HTMLFormElement>): void => {
+  const setChangeDetection = useSetRecoilState<boolean>(changeDetected);
+
+  const addTodo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setTodos((todos) => [...todos, { ...formData, id: uuid() }]);
+    await createTodo(formData);
+    setChangeDetection((prev) => !prev);
   };
 
   return (
@@ -21,13 +22,6 @@ const TodoCreate = () => {
       <input
         type="text"
         onChange={(e) => setFormData({ ...formData, todo: e.target.value })}
-      />
-      <input
-        type="checkbox"
-        onChange={() =>
-          setFormData({ ...formData, isCompleted: !formData.isCompleted })
-        }
-        checked={formData.isCompleted}
       />
       <button type="submit">Add Todo</button>
     </form>
